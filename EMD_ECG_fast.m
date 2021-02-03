@@ -1,4 +1,4 @@
-function [Comp, EMD, ke_vec, LB, HB] = EMD_ECG_fast(X_A, We, bin_p_bpm, BPM_comp)
+function [EMD, ke_vec, LB, HB] = EMD_ECG_fast(X_A, We, gSig)
 %% EMD partial
 % à implémenter : verif min local
 
@@ -71,7 +71,7 @@ for n=(N_hat+1):L_hsz
         fprintf("%u/%u, ", n, L_hsz);
     end
 
-    range_n = 3*max(1, ceil(std(ke_vec(1:m))));
+    range_n = gSig*max(1, ceil(std(ke_vec(1:m))));
     km = ke_vec(m);
     LB(n) = max(1, km - range_n);
     HB(n) = min(K_e, km + range_n);
@@ -82,11 +82,6 @@ for n=(N_hat+1):L_hsz
     ke_vec(n) = v_arg + LB(n) -1;
 end
 fprintf("\n");
-
-Comp = zeros(K_e, L_hsz);
-for n=1:L_hsz
-    Comp(ke_vec(n), n) = 1;
-end
 
 end
 

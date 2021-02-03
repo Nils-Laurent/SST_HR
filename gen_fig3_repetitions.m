@@ -14,13 +14,14 @@ ai = [1.2 -5 30 -7.5 0.75];
 bi = [0.25 0.1 0.1 0.1 0.4];
 
 addpath('./ecgsyn/');
-[s_syn_init, ipeaks] = ecgsyn(sfecg,N_HBeats,Anoise,hrmean,hrstd,lfhfratio,sfint,ti,ai,bi);
+% [s_syn_init, ipeaks] = ecgsyn(sfecg,N_HBeats,Anoise,hrmean,hrstd,lfhfratio,sfint,ti,ai,bi);
+% 
+% Fs = sfecg;
+% Lx = min(Fs*30, length(s_syn_init));
+% s_syn = s_syn_init(1:Lx);
 
-Fs = sfecg;
-Lx = min(Fs*30, length(s_syn_init));
-s_syn = s_syn_init(1:Lx);
-
-T_x = (0:(Lx-1))/Fs;
+prec_bpm = 0.2667; % frequency bin per bpm
+max_f = 30;
 
 %% varying noise level
 SNRs = inf;
@@ -32,11 +33,15 @@ mean_vec_SST = zeros(1, N_snr);
 
 for n=1:N_snr
     snr = SNRs(n);
+    gSig = 2;
     
     noise = randn(1, Lx);
     s_noise = sigmerge(s_syn, noise', snr);
-%     [T_hsz, BPM_X, BPM_comp, R_STFT, R_SST] =...
-%         ECG_TF_cmp(s_noise, Fs);
+    [X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
+        ECG_TF(s_noise, Fs, max_f, prec_bpm);
+    [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
+    [EMD_V, ke_V, LB_V, HB_V] = EMD_ECG_fast(X_A_STFT, W_STFT, gSig);
+    [EMD_T, ke_T, LB_T, HB_T] = EMD_ECG_fast(X_A_SST, W_SST, gSig);
 
     std_vec_STFT(n) = std(R_STFT.CVec);
     mean_vec_STFT(n) = mean(R_STFT.CVec);
@@ -44,7 +49,8 @@ for n=1:N_snr
     mean_vec_SST(n) = mean(R_SST.CVec);
 end
 
-TFRsc_Ismall(T_hsz, BPM_X, R_SST.ASST);
-TFRsc_Ismall(T_hsz, BPM_X, R_STFT.ASTFT);
-EMDsc_Ismall(T_hsz, BPM_comp, R_SST.EMD);
-EMDsc_Ismall(T_hsz, BPM_comp, R_STFT.EMD);
+TFRsc_Ismall(T_hsz, BPM_X, X_A_STFT);
+EMDsc_Ismall(T_hsz, BPM_comp, EMD_V);
+
+TFRsc_Ismall(T_hsz, BPM_X, X_A_SST);
+EMDsc_Ismall(T_hsz, BPM_comp, EMD_T);

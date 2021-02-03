@@ -29,7 +29,7 @@ for n=1:length(t)
     trans(n)  = tau(1);
 end
 
-tfr=fft(tfr,Nfft); 
-%tfr = tfr.*exp(-2*1i*pi*(0:Nfft-1)'/Nfft*trans);
+% tfr=fft(tfr,Nfft); 
+tfr = tfr.*exp(-2*1i*pi*(0:Nfft-1)'/Nfft*trans);
 
 end 
