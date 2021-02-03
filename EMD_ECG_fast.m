@@ -1,9 +1,11 @@
-function [EMD, ke_vec, LB, HB] = EMD_ECG_fast(X_A, We, gSig)
+function [EMD, ke_vec, LB, HB, Delta] = EMD_ECG_fast(X_A, We, gSig)
 %% EMD partial
 % à implémenter : verif min local
 
 [~, L_hsz] = size(X_A);
 [~, K_e] = size(We);
+
+Delta = zeros(1, L_hsz);
 
 LB = zeros(1, L_hsz);
 HB = zeros(1, L_hsz);
@@ -72,6 +74,7 @@ for n=(N_hat+1):L_hsz
     end
 
     range_n = gSig*max(1, ceil(std(ke_vec(1:m))));
+    Delta(n) = range_n;
     km = ke_vec(m);
     LB(n) = max(1, km - range_n);
     HB(n) = min(K_e, km + range_n);

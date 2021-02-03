@@ -15,7 +15,7 @@ bi = [0.25 0.1 0.1 0.1 0.4];
 
 addpath('./ecgsyn/');
 % [s_syn_init, ipeaks] = ecgsyn(sfecg,N_HBeats,Anoise,hrmean,hrstd,lfhfratio,sfint,ti,ai,bi);
-% 
+
 % Fs = sfecg;
 % Lx = min(Fs*30, length(s_syn_init));
 % s_syn = s_syn_init(1:Lx);
@@ -24,33 +24,41 @@ prec_bpm = 0.2667; % frequency bin per bpm
 max_f = 30;
 
 %% varying noise level
-SNRs = inf;
-N_snr = length(SNRs);
-std_vec_STFT = zeros(1, N_snr);
-mean_vec_STFT = zeros(1, N_snr);
-std_vec_SST = zeros(1, N_snr);
-mean_vec_SST = zeros(1, N_snr);
+GSigs = 3;
+N_g = length(SNRs);
+std_vec_STFT = zeros(1, N_g);
+mean_vec_STFT = zeros(1, N_g);
+std_vec_SST = zeros(1, N_g);
+mean_vec_SST = zeros(1, N_g);
 
-for n=1:N_snr
-    snr = SNRs(n);
-    gSig = 2;
-    
-    noise = randn(1, Lx);
-    s_noise = sigmerge(s_syn, noise', snr);
-    [X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
-        ECG_TF(s_noise, Fs, max_f, prec_bpm);
-    [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
-    [EMD_V, ke_V, LB_V, HB_V] = EMD_ECG_fast(X_A_STFT, W_STFT, gSig);
-    [EMD_T, ke_T, LB_T, HB_T] = EMD_ECG_fast(X_A_SST, W_SST, gSig);
+% [X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
+%     ECG_TF(s_syn, Fs, max_f, prec_bpm);
+% [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
+% 
+% for gSig=GSigs
+%     [EMD_V, ke_V, LB_V, HB_V, Delta_V] = EMD_ECG_fast(X_A_STFT, W_STFT, gSig);
+%     [EMD_T, ke_T, LB_T, HB_T, Delta_T] = EMD_ECG_fast(X_A_SST, W_SST, gSig);
+% 
+%     std_vec_STFT(n) = std(R_STFT.CVec);
+%     mean_vec_STFT(n) = mean(R_STFT.CVec);
+%     std_vec_SST(n) = std(R_SST.CVec);
+%     mean_vec_SST(n) = mean(R_SST.CVec);
+% end
 
-    std_vec_STFT(n) = std(R_STFT.CVec);
-    mean_vec_STFT(n) = mean(R_STFT.CVec);
-    std_vec_SST(n) = std(R_SST.CVec);
-    mean_vec_SST(n) = mean(R_SST.CVec);
-end
+save("data_fig3_ecgreal.mat", 'T_hsz', 'BPM_X', 'BPM_comp',...
+    'std_vec_STFT', 'EMD_T');
 
-TFRsc_Ismall(T_hsz, BPM_X, X_A_STFT);
 EMDsc_Ismall(T_hsz, BPM_comp, EMD_V);
+plotEMDmin_Ismall(T_hsz, BPM_comp(ke_V), 'g', 'HR detection');
 
-TFRsc_Ismall(T_hsz, BPM_X, X_A_SST);
-EMDsc_Ismall(T_hsz, BPM_comp, EMD_T);
+figure;
+hold on;
+plot(T_hsz, Delta_V);
+plot(T_hsz, Delta_T, '--');
+hold off;
+
+% TFRsc_Ismall(T_hsz, BPM_X, X_A_STFT);
+% EMDsc_Ismall(T_hsz, BPM_comp, EMD_V);
+% 
+% TFRsc_Ismall(T_hsz, BPM_X, X_A_SST);
+% EMDsc_Ismall(T_hsz, BPM_comp, EMD_T);

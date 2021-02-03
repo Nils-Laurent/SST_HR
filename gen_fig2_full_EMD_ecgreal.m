@@ -20,6 +20,12 @@ T_x = (0:(Lx-1))/Fs;
 
 load('data_fig2_EMD_full_ecgreal.mat');
 
-save_fig2_EMD_full(T_hsz, BPM_X, BPM_comp,...
-    EMD_all_STFT, EMD_all_SST, 'ecgreal');
+EMDsc_Ismall(T_hsz, BPM_comp, EMD_all_STFT);
+saveas(gcf, "fig2_EMD_full_STFT_ecgreal", 'epsc');
+
+EMDsc_Ismall(T_hsz, BPM_comp, EMD_all_SST);
+saveas(gcf, "fig2_EMD_full_SST_ecgreal", 'epsc');
+
+% save_fig2_EMD_full(T_hsz, BPM_X, BPM_comp,...
+%     EMD_all_STFT, EMD_all_SST, 'ecgreal');
 
