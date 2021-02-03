@@ -17,9 +17,6 @@ for ke=1:K_e
 end
 fprintf("\n");
 
-% save("EMD_all_ECG_test2thoracic.mat", 'EMD_all');
-% load("EMD_all_ECG_test2thoracic.mat");
-
 [~, ke_vec] = min(EMD_all, [], 1);
 % histogram de ke_vec
 N_vec = zeros(1, K_e);

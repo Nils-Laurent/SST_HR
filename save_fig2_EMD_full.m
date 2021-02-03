@@ -1,9 +1,9 @@
 function save_fig2_EMD_full(T_hsz, BPM_X, BPM_comp,...
     EMD_STFT, EMD_SST, name)
 
-axisFSZ = 20;
-labelSZ = 32;
-lgdSZ = 24;
+axisFSZ = 22;
+labelSZ = 36;
+lgdSZ = 28;
 lenSZ = 700;
 
 figure;

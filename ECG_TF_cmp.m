@@ -21,7 +21,8 @@ BPM_vec = F_vec*60;
 fprintf("SST\n");
 gamma = 10^(-6);
 hsz = 32; % Hop size (w-overlap), shift
-[STFT,~,SST2, n_down] = sst2_down_gauss(s_ecg, sigma_w, Fs, Nfft, hsz, prec_w);
+[STFT,~,SST2, n_down] =...
+    sst2_down_gauss(s_ecg, sigma_w, Fs, Nfft, hsz, prec_w, gamma);
 T_hsz = n_down/Fs;
 
 X_A_SST = abs(SST2(1:k_max, :));

@@ -1,4 +1,4 @@
-function [STFT,SST,VSST1, t] = sst2_down_gauss(s,sigma_w,Fs,Nfft,R,w_prec)
+function [STFT,SST,VSST1, t] = sst2_down_gauss(s,sigma_w,Fs,Nfft,R,w_prec,gamma)
 
 %% sst2_down_gauss : computes the STFT of a signal and different versions of synchrosqueezing
 %
@@ -52,7 +52,6 @@ for n=1:Nt
 
 	% Storing STFT
     STFT(:, n) = vg.*exp(-2*1i*pi*(0:Nfft-1)'/Nfft*tau(1));
-%     STFT(:, n) = vg;
      
  	% STFT, window xg
  	vxg = fft(s(t(n)+tau).*(tau)'/Fs.*g(Lh+tau+1),Nfft);
@@ -84,20 +83,10 @@ for n=1:Nt
                               + imag(phipp(:,n)).*imag(t_gd(:,n));
 end
 
-% figure;
-% imagesc(omega);
-% colormap(flipud(gray));
-% ylabel('Frequency [Hz]'); axis xy; colorbar
-% xlabel('Time [s]', 'Interpreter', 'latex', 'Fontname', 'Times', 'Fontangle', 'italic', 'Fontsize',18);
-% pause;
-
-Y2 = real(STFT);
-gamma = 3*median(abs(Y2(:)))/0.6745; 
-
  %% reassignment step
 for n=1:Nt
     for eta=1:Nfft
-        if abs(STFT(eta,n))> gamma/Nfft
+        if abs(STFT(eta,n)) > gamma
            k = 1+round(Nfft/Fs*omega(eta,n));
             if (k >= 1) && (k <= Nfft)
              % original reassignment
