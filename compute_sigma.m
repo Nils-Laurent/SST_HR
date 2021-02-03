@@ -25,7 +25,8 @@ s_clean = in_sig;
 % axis square
 % pause;
 
-[g, Lg] = create_gaussian_window(L, Nfft, 0.0718);
+prec = 10^(-3);
+[g, Lg] = create_gaussian_window(L, Nfft, 0.0718, prec);
 
 
 %% find sigma
