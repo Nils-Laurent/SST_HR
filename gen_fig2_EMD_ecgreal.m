@@ -16,15 +16,16 @@ gSig = 3;
 
 %% EMD
 
-[X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
-    ECG_TF(s_ecg, Fs, max_f, prec_bpm);
-[W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
-[EMD_V, ke_V, LB_V, HB_V] = EMD_ECG_fast(X_A_STFT, W_STFT, gSig);
-[EMD_T, ke_T, LB_T, HB_T] = EMD_ECG_fast(X_A_SST, W_SST, gSig);
+% [X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
+%     ECG_TF(s_ecg, Fs, max_f, prec_bpm);
+% [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
+% [EMD_V, ke_V, LB_V, HB_V] = EMD_ECG_fast(X_A_STFT, W_STFT, gSig);
+% [EMD_T, ke_T, LB_T, HB_T] = EMD_ECG_fast(X_A_SST, W_SST, gSig);
 
-save("fig2_data_ecgreal.mat", 'T_hsz', 'BPM_X', 'BPM_comp',...
-    'EMD_V', 'EMD_T');
-% load('data_fig2_ecgreal.mat');
+% save("data_fig2_ecgreal.mat",...
+%     'T_hsz', 'BPM_X', 'BPM_comp', 'X_A_STFT', 'X_A_SST',...
+%     'EMD_V', 'ke_V', 'LB_V', 'HB_V', 'EMD_T', 'ke_T', 'LB_T', 'HB_T');
+load('data_fig2_ecgreal.mat');
 
 std_vec_STFT = std(ke_V)
 std_vec_SST = std(ke_T)
@@ -35,6 +36,7 @@ saveas(gcf, "fig2_STFT_ecgreal", 'epsc');
 
 EMDsc_Ismall(T_hsz, BPM_comp, EMD_V);
 plotEMDmin_Ismall(T_hsz, BPM_comp(ke_V), 'g', 'HR detection');
+legend_Ismall();
 saveas(gcf, "fig2_EMD_STFT_ecgreal", 'epsc');
 
 TFRsc_Ismall(T_hsz, BPM_X, X_A_SST);
@@ -42,5 +44,6 @@ saveas(gcf, "fig2_SST_ecgreal", 'epsc');
 
 EMDsc_Ismall(T_hsz, BPM_comp, EMD_T);
 plotEMDmin_Ismall(T_hsz, BPM_comp(ke_V), 'g', 'HR detection');
+legend_Ismall();
 saveas(gcf, "fig2_EMD_SST_ecgreal", 'epsc');
 

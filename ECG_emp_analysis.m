@@ -32,13 +32,13 @@ D_peak = I_zero - ke_peak;
 ke_H = min(nonzeros(I_zero.*(D_peak > 0)));
 ke_L = max(nonzeros(I_zero.*(D_peak < 0)));
 
-figure;
-hold on;
-plot(1:K_e, N_vec);
-plot(ke_L, N_vec(ke_L), 'o');
-plot(ke_peak, N_vec(ke_peak), 'x');
-plot(ke_H, N_vec(ke_H), 'o');
-hold on;
+% figure;
+% hold on;
+% plot(1:K_e, N_vec);
+% plot(ke_L, N_vec(ke_L), 'o');
+% plot(ke_peak, N_vec(ke_peak), 'x');
+% plot(ke_H, N_vec(ke_H), 'o');
+% hold on;
 
 A1 = 0;
 for n=1:L_hsz

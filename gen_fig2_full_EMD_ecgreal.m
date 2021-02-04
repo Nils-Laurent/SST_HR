@@ -10,11 +10,10 @@ s_ecg = signal_ecg(1:Lx);
 
 T_x = (0:(Lx-1))/Fs;
 
-
 %% EMD
 % [T_hsz, BPM_X, BPM_comp, N_hat, std_hat, N_hat2, std_hat2, EMD_all_SST, EMD_all_STFT] =...
 %     ECG_emp_both(s_ecg, Fs);
-% save("fig2_EMD_full_data_ecgreal.mat", 'T_hsz', 'BPM_X', 'BPM_comp',...
+% save("data_fig2_EMD_full_ecgreal.mat", 'T_hsz', 'BPM_X', 'BPM_comp',...
 %     'N_hat', 'std_hat', 'N_hat2', 'std_hat2', 'EMD_all_SST', 'EMD_all_STFT');
 
 
@@ -25,7 +24,4 @@ saveas(gcf, "fig2_EMD_full_STFT_ecgreal", 'epsc');
 
 EMDsc_Ismall(T_hsz, BPM_comp, EMD_all_SST);
 saveas(gcf, "fig2_EMD_full_SST_ecgreal", 'epsc');
-
-% save_fig2_EMD_full(T_hsz, BPM_X, BPM_comp,...
-%     EMD_all_STFT, EMD_all_SST, 'ecgreal');
 

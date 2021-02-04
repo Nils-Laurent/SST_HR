@@ -2,10 +2,13 @@ function TFRsc(A1, A2, A3, xunit, yunit, flipCB, axisFSZ, labelSZ, lenSZ)
 
 if nargin == 1
     TFR = A1;
-    XV = 1:size(TFR, 1);
-    YV = 1:size(TFR, 2);
+    XV = 1:size(TFR, 2);
+    YV = 1:size(TFR, 1);
     xunit = "";
     yunit = "";
+    axisFSZ = 18;
+    labelSZ = 18;
+    lenSZ = 500;
 else
     XV = A1;
     YV = A2;
