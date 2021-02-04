@@ -43,7 +43,7 @@ TFRsc_Ismall(T_hsz, BPM_X, X_A_SST);
 saveas(gcf, "fig2_SST_ecgreal", 'epsc');
 
 EMDsc_Ismall(T_hsz, BPM_comp, EMD_T);
-plotEMDmin_Ismall(T_hsz, BPM_comp(ke_V), 'g', 'HR detection');
+plotEMDmin_Ismall(T_hsz, BPM_comp(ke_T), 'g', 'HR detection');
 legend_Ismall();
 saveas(gcf, "fig2_EMD_SST_ecgreal", 'epsc');
 
