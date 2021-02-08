@@ -73,7 +73,7 @@ for n=(N_hat+1):L_hsz
         fprintf("%u/%u, ", n, L_hsz);
     end
 
-    range_n = gSig*max(1, ceil(std(ke_vec(1:m))));
+    range_n = ceil(gSig*max(1, std(ke_vec(1:m))));
     Delta(n) = range_n;
     km = ke_vec(m);
     LB(n) = max(1, km - range_n);

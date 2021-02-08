@@ -1,4 +1,4 @@
-close all;
+% close all;
 
 ecg_name = 'ECGt_raw';
 signal_ecg = load("test2.mat", ecg_name);

@@ -32,6 +32,13 @@ D_peak = I_zero - ke_peak;
 ke_H = min(nonzeros(I_zero.*(D_peak > 0)));
 ke_L = max(nonzeros(I_zero.*(D_peak < 0)));
 
+if isempty(ke_H)
+    ke_H = K_e;
+end
+if isempty(ke_L)
+    ke_L = 1;
+end
+
 % figure;
 % hold on;
 % plot(1:K_e, N_vec);
