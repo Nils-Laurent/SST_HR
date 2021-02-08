@@ -19,9 +19,9 @@ T_x = (0:(Lx-1))/Fs;
 
 load('data_fig2_EMD_full_ecgreal.mat');
 
-EMDsc_Ismall(T_hsz, BPM_comp, EMD_all_STFT);
+EMDsc_Ismall(T_hsz, 1:size(EMD_all_STFT, 1), EMD_all_STFT);
 saveas(gcf, "fig2_EMD_full_STFT_ecgreal", 'epsc');
 
-EMDsc_Ismall(T_hsz, BPM_comp, EMD_all_SST);
+EMDsc_Ismall(T_hsz, 1:size(EMD_all_SST, 1), EMD_all_SST);
 saveas(gcf, "fig2_EMD_full_SST_ecgreal", 'epsc');
 

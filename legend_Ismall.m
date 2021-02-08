@@ -1,7 +1,13 @@
-function legend_Ismall()
+function legend_Ismall(loc)
+
+
 lgdSZ = 24;
 lgd = legend;
 lgd.FontSize = lgdSZ;
-set(lgd,'Interpreter','latex');
+if nargin > 0
+    set(lgd,'Interpreter','latex', 'Location', loc);
+else
+    set(lgd,'Interpreter','latex');
+end
 end
 

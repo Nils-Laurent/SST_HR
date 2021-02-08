@@ -34,14 +34,14 @@ N_g = length(GSigs);
 % std_vec_SST = zeros(1, N_g);
 % mean_vec_SST = zeros(1, N_g);
 % 
-% [X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
-%     ECG_TF(s_syn, Fs, max_f, prec_bpm);
-% 
-% L_hsz = size(X_A_SST, 2);
-% Delta_STFT = zeros(L_hsz, N_g);
-% Delta_SST = zeros(L_hsz, N_g);
-% 
-% [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
+[X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
+    ECG_TF(s_syn, Fs, max_f, prec_bpm);
+
+L_hsz = size(X_A_SST, 2);
+Delta_STFT = zeros(L_hsz, N_g);
+Delta_SST = zeros(L_hsz, N_g);
+
+[W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
 % 
 % for n=1:N_g
 %     fprintf("gamma %u/%u\n", n, N_g);
@@ -57,33 +57,36 @@ N_g = length(GSigs);
 %     mean_vec_SST(n) = mean(BPM_comp(ke_T));
 % end
 % 
-% save("data_fig3_GSig_ecgsyn.mat", 's_syn_init',...
-%     'X_A_SST', 'X_A_STFT', 'T_hsz', 'BPM_X', 'Nfft', 'sigma_w',...
-%     'std_vec_STFT', 'std_vec_SST', 'mean_vec_STFT', 'mean_vec_SST',...
-%     'Delta_STFT', 'Delta_SST');
+save("data_fig3_GSig_ecgsyn.mat", 's_syn_init',...
+    'X_A_SST', 'X_A_STFT', 'T_hsz', 'BPM_X', 'Nfft', 'sigma_w',...
+    'W_STFT', 'W_SST',...
+    'std_vec_STFT', 'std_vec_SST', 'mean_vec_STFT', 'mean_vec_SST',...
+    'Delta_STFT', 'Delta_SST');
 
-% axisFSZ = 22;
-% labelSZ = 36;
-% lenSZ = 700;
-% 
-% TFRsc(T_hsz, BPM_X, X_A_STFT, "time", "bpm", 1, axisFSZ, labelSZ, lenSZ);
-% saveas(gcf, "fig3_STFT_ecgsyn", 'epsc');
-% TFRsc(T_hsz, BPM_X, X_A_SST, "time", "bpm", 1, axisFSZ, labelSZ, lenSZ);
-% saveas(gcf, "fig3_SST_ecgsyn", 'epsc');
-% TFRsc(T_hsz, BPM_X, W_STFT, "time", "bpm", 1, axisFSZ, labelSZ, lenSZ);
-% saveas(gcf, "fig3_W_STFT_ecgsyn", 'epsc');
-% TFRsc(T_hsz, BPM_X, W_SST, "time", "bpm", 1, axisFSZ, labelSZ, lenSZ);
-% saveas(gcf, "fig3_W_SST_ecgsyn", 'epsc');
+axisFSZ = 22;
+labelSZ = 36;
+lenSZ = 700;
 
-figPlot_Ismall("$\gamma$", "bpm");
-legend_Ismall();
+TFRsc(T_hsz, BPM_X, X_A_STFT, "time", "bpm", 1, axisFSZ, labelSZ, lenSZ);
+saveas(gcf, "fig3_STFT_ecgsyn", 'epsc');
+TFRsc(T_hsz, BPM_X, X_A_SST, "time", "bpm", 1, axisFSZ, labelSZ, lenSZ);
+saveas(gcf, "fig3_SST_ecgsyn", 'epsc');
+TFRsc(1:size(W_STFT, 2), BPM_X, W_STFT,...
+    "component index", "bpm", 1, axisFSZ, labelSZ, lenSZ);
+saveas(gcf, "fig3_W_STFT_ecgsyn", 'epsc');
+TFRsc(1:size(W_SST, 2), BPM_X, W_SST,...
+    "component index", "bpm", 1, axisFSZ, labelSZ, lenSZ);
+saveas(gcf, "fig3_W_SST_ecgsyn", 'epsc');
+
+figPlot_Ismall("$\gamma$", "components");
+legend_Ismall('southwest');
 hold on;
 plot(GSigs, std_vec_STFT, 'DisplayName', 'std($\mathbf{\hat i}$) STFT');
 plot(GSigs, std_vec_SST, '--', 'DisplayName', 'std($\mathbf{\hat i}$) SST');
 hold off;
 saveas(gcf, "fig3_std_ecgsyn", 'epsc');
 
-figPlot_Ismall("$\gamma$", "bpm");
+figPlot_Ismall("$\gamma$", "component index");
 legend_Ismall();
 hold on;
 plot(GSigs, mean_vec_STFT, 'DisplayName', 'mean($\mathbf{\hat i}$) STFT');
