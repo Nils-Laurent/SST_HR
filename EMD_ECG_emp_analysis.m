@@ -1,34 +1,39 @@
-function [N_hat, std_hat, EMD_all] = ECG_emp_analysis(X_A, We, BPM_comp)
-%% empirical analysis
-% e.g. 60 bpm <= ke <= 85 bpm
+function [min_vec, p_hat, N_hat] = EMD_ECG_emp_analysis(EMD_all, ke_L, ke_H)
 
-addpath('./SST_compare-master/comparison');
-addpath('./SST_compare-master/FastEMD');
+[~, min_vec] = min(EMD_all, [], 1);
+L_min = length(min_vec);
 
+p_hat = sum((min_vec >= ke_L).*(min_vec <= ke_H))/L_min; % Bernoulli estimation
 
-[~, L_hsz] = size(X_A);
-[~, K_e] = size(We);
-
-fprintf("EMD all\n");
-EMD_all = zeros(K_e, L_hsz);
-for ke=1:K_e
-    fprintf("%u/%u ", ke, K_e);
-    EMD_all(ke, :) = EMDMatGen(X_A, We(:, ke));
+fprintf("compute binomal\n");
+N_max = 200;
+M_max = floor(N_max/2) - 1;
+Y_vec = zeros(1, M_max);
+for Mi = 1:M_max
+    Ni = 2*Mi + 1;
+    Y_vec(Mi) = binocdf(Mi, Ni, p_hat);
 end
-fprintf("\n");
 
-[~, ke_vec] = min(EMD_all, [], 1);
+M_hat = find(Y_vec >= 0.0001, 1, 'last');
+N_hat = 2*M_hat + 1;
+
+figure;
+plot(Y_vec);
+
+return;
 % histogram de ke_vec
 N_vec = zeros(1, K_e);
 
-for ke=ke_vec
+for ke=min_vec
     N_vec(ke) = N_vec(ke) + 1;
 end
 N_vec = N_vec/sum(N_vec);
 
-[~, ke_peak] = max(N_vec);
+% [~, ke_peak] = max(N_vec);
+[ke_M] = median(min_vec);
+
 [~, I_zero] = find(N_vec == 0);
-D_peak = I_zero - ke_peak;
+D_peak = I_zero - ke_M;
 ke_H = min(nonzeros(I_zero.*(D_peak > 0)));
 ke_L = max(nonzeros(I_zero.*(D_peak < 0)));
 
@@ -49,7 +54,7 @@ end
 
 A1 = 0;
 for n=1:L_hsz
-    c_ke = ke_vec(n);
+    c_ke = min_vec(n);
     A1 = A1 + (ke_L <= c_ke && c_ke <= ke_H); % fix : unit of c_ke
 end
 
