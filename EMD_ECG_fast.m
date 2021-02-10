@@ -13,9 +13,17 @@ HB = zeros(1, L_hsz);
 addpath('./SST_compare-master/comparison');
 addpath('./SST_compare-master/FastEMD');
 
-N_hat = 30;
+N_hat = 45;
 
-[EMD_base, ke_L, ke_H] = EMD_win(X_A, We, N_hat);
+r = 0;
+M = 1;
+while r < 0.6
+    [EMD_base, ke_L, ke_H, r] = EMD_win(X_A, We, M*N_hat);
+    M = M + 1;
+end
+
+M = M - 1;
+N_hat = M*N_hat;
 
 LB(1:N_hat) = ke_L;
 HB(1:N_hat) = ke_H;

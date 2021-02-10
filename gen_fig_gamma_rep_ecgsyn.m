@@ -27,12 +27,16 @@ for nr=1:N_rep
         gSig = GSigs(ng);
         [EMD_T, ke_T, LB_T, HB_T, Delta_T] = EMD_ECG_fast(X_A_SST, W_SST, gSig);
 
-%         TFRsc(X_A_SST);
 %         EMDsc_Ismall(EMD_T);
-%         pause;
+%         hold on;
+%         plot(ke_T);
+%         plot(mean(ke_T)*ones(size(ke_T)), '--');
+%         hold off;
+% %         drawnow
+% %         pause;
 
-        std_vec_SST(ng) = std_vec_SST(ng) + std(BPM_comp(ke_T));
-        mean_vec_SST(ng) = mean_vec_SST(ng) + mean(BPM_comp(ke_T));
+        std_vec_SST(ng) = std_vec_SST(ng) + std(ke_T);
+        mean_vec_SST(ng) = mean_vec_SST(ng) + mean(ke_T);
     end
 end
 
@@ -61,7 +65,8 @@ saveas(gcf, "fig_std_ecgsyn", 'epsc');
 figPlot_Ismall("$\gamma$", "component index");
 legend_Ismall();
 hold on;
-plot(GSigs, hrmean*ones(1, N_g), 'DisplayName', 'HR$_{syn}$');
+% in our case, 60 bpm is the index 31 of the dictionary
+plot(GSigs, 31*ones(1, N_g), 'DisplayName', 'HR$_{syn}$');
 plot(GSigs, mean_vec_SST, '--', 'DisplayName', 'mean($\mathbf{\hat i}$) SST');
 hold off;
 saveas(gcf, "fig_mean_ecgsyn", 'epsc');
