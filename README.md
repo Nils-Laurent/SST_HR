@@ -13,3 +13,7 @@ It relies on:
 [2] Patricio López-Serrano, Christian Dittmar, Yiğitcan Özer, and Meinard Müller NMF Toolbox: Music Processing Applications of Nonnegative Matrix Factorization In Proceedings of the International Conference on Digital Audio Effects (DAFx), 2019.
 
 [3] Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.
+
+## Data
+
+Generate the data using `gen_data_ecgsyn_N.m` and `gen_data_ecgsyn_single.m`
