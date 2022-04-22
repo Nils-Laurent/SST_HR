@@ -31,7 +31,7 @@ std_vec_SST = std(ke_T)
 %% 1 figure
 
 EMDsc_Ismall(T_hsz, 1:size(EMD_T, 1), EMD_T);
-plotEMDmin_Ismall(T_hsz, ke_T, 'g', 'HR detection');
-legend_Ismall();
+plotEMDmin_Ismall(T_hsz, ke_T, 'w', 'HR detection');
+% legend_Ismall();
 saveas(gcf, "fig_EMD_SST_ecgreal", 'epsc');
 
