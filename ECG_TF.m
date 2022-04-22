@@ -1,4 +1,4 @@
-function [X_A_SST, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
+function [X_A_SST2, X_A_SST1, X_A_STFT, N_hsz, BPM_X, Nfft, sigma_w] =...
     ECG_TF(ecg_in, Fs, max_f, prec_bpm)
 s_ecg = ecg_in - mean(ecg_in);
 s_ecg = hilbert(s_ecg);
@@ -19,11 +19,12 @@ BPM_vec = F_vec*60;
 fprintf("SST\n");
 gamma = 10^(-6);
 hsz = 32; % Hop size (w-overlap), shift
-[STFT,~,SST2, n_down] =...
+[STFT,SST1,SST2, n_down] =...
     sst2_down_gauss(s_ecg, sigma_w, Fs, Nfft, hsz, prec_w, gamma);
-T_hsz = n_down/Fs;
+N_hsz = n_down;
 
-X_A_SST = abs(SST2(1:k_max, :));
+X_A_SST2 = abs(SST2(1:k_max, :));
+X_A_SST1 = abs(SST1(1:k_max, :));
 X_A_STFT = abs(STFT(1:k_max, :));
 % F_X = F_vec(1:k_max);
 BPM_X = BPM_vec(1:k_max);
