@@ -14,20 +14,20 @@ prec_bpm = 0.2667; % frequency bin per bpm
 max_f = 30;
 
 %% EMD
-% [X_A_SST2, X_A_SST1, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
-%     ECG_TF(s_ecg, Fs, max_f, prec_bpm);
-% [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
+[X_A_SST2, X_A_SST1, X_A_STFT, T_hsz, BPM_X, Nfft, sigma_w] =...
+    ECG_TF(s_ecg, Fs, max_f, prec_bpm);
+[W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
 
-% [EMD_all_SST1] = EMD_ECG_full(X_A_SST1, W_SST);
-% [EMD_all_SST2] = EMD_ECG_full(X_A_SST2, W_SST);
-% [EMD_all_STFT] = EMD_ECG_full(X_A_STFT, W_STFT);
+[EMD_all_SST1] = EMD_ECG_full(X_A_SST1, W_SST);
+[EMD_all_SST2] = EMD_ECG_full(X_A_SST2, W_SST);
+[EMD_all_STFT] = EMD_ECG_full(X_A_STFT, W_STFT);
 
-save("data_fig_full_EMD_ecgreal.mat",...
-    'X_A_SST2', 'X_A_SST1', 'X_A_STFT', 'T_hsz', 'BPM_X', 'Nfft', 'sigma_w',...
-    'W_STFT', 'W_SST', 'BPM_comp',...
-    'EMD_all_SST2', 'EMD_all_STFT');
-
-load('data_fig_full_EMD_ecgreal.mat');
+% save("data_fig_full_EMD_ecgreal.mat",...
+%     'X_A_SST2', 'X_A_SST1', 'X_A_STFT', 'T_hsz', 'BPM_X', 'Nfft', 'sigma_w',...
+%     'W_STFT', 'W_SST', 'BPM_comp',...
+%     'EMD_all_SST2', 'EMD_all_STFT');
+% 
+% load('data_fig_full_EMD_ecgreal.mat');
 
 ke_L = 25;
 ke_H = 60;
