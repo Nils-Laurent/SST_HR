@@ -1,5 +1,7 @@
 close all;
 
+addpath('./paper_code/');
+
 ecg_name = 'ECGt_raw';
 signal_ecg = load("test2.mat", ecg_name);
 signal_ecg = signal_ecg.(genvarname(ecg_name));

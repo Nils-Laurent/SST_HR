@@ -1,5 +1,7 @@
 close all;
 
+addpath('./paper_code/');
+
 load("data_ecg_syn_N.mat", 'ecgsyn_N', 'Fs', 'hrmean', 'hrstd');
 
 [Lx, N_rep] = size(ecgsyn_N);
@@ -19,70 +21,70 @@ mean_vec_SST1 = zeros(1, N_g);
 std_vec_RP = zeros(1, N_g);
 mean_vec_RP = zeros(1, N_g);
 
-% for nr=1:N_rep
-%     s_syn = ecgsyn_N(:, nr);
-%     [X_A_SST2, X_A_SST1, X_A_STFT, N_hsz, BPM_X, Nfft, sigma_w] =...
-%         ECG_TF(s_syn, Fs, max_f, prec_bpm);
-% 
-%     L_hsz = size(X_A_SST2, 2);
-% 
-%     [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
-%         
+for nr=1:N_rep
+    s_syn = ecgsyn_N(:, nr);
+    [X_A_SST2, X_A_SST1, X_A_STFT, N_hsz, BPM_X, Nfft, sigma_w] =...
+        ECG_TF(s_syn, Fs, max_f, prec_bpm);
+
+    L_hsz = size(X_A_SST2, 2);
+
+    [W_STFT, W_SST, BPM_comp] = ECG_dictionnary(Fs, Nfft, sigma_w, max_f);
+        
 %     [RP_hr, RP_mean, RP_std, ~, ~] = hr_from_rr(s_syn, Fs, T_x);
-%     
+    
 %     RP_mean = RP_mean*60 - 29;
 %     RP_std = RP_std*60;
-%     
+    
 %     std_vec_RP(:) = std_vec_RP(:) + RP_std;
 %     mean_vec_RP(:) = mean_vec_RP(:) + RP_mean;
-% 
-%     for ng=1:N_g
-%         fprintf("rep = %u/%u, gamma %u/%u \n", nr, N_rep, ng, N_g);
-%         gSig = GSigs(ng);
-%         [EMD_T2, ke_T2, LB_T, HB_T, Delta_T] =...
-%             EMD_ECG_fast(X_A_SST2, W_SST, gSig);
-%         [EMD_T1, ke_T1, LB_T, HB_T, Delta_T] =...
-%             EMD_ECG_fast(X_A_SST1, W_SST, gSig);
-% 
-% %         EMDsc_Ismall(N_hsz/Fs, 1:size(EMD_T1, 1), EMD_T1);
-% %         hold on;
-% %         plot(N_hsz/Fs, ke_T1, 'c-', 'DisplayName', 'RP HR');
-% %         plot(N_hsz/Fs, mean(ke_T1)*ones(size(ke_T1)), 'c--', 'DisplayName', 'RP HR');
-% %         plot(N_hsz/Fs, RP_hr(N_hsz)*60 - 29, 'r-', 'DisplayName', 'RP HR');
-% %         plot(N_hsz/Fs, RP_mean*ones(size(ke_T1)), 'r--', 'DisplayName', 'RP HR');
-% %         hold off;
-% %         
-% %         EMDsc_Ismall(N_hsz/Fs, 1:size(EMD_T1, 1), EMD_T2);
-% %         hold on;
-% %         plot(N_hsz/Fs, ke_T2, 'c-', 'DisplayName', 'RP HR');
-% %         plot(N_hsz/Fs, mean(ke_T2)*ones(size(ke_T2)), 'c--', 'DisplayName', 'RP HR');
-% %         plot(N_hsz/Fs, RP_hr(N_hsz)*60 - 29, 'r-', 'DisplayName', 'RP HR');
-% %         plot(N_hsz/Fs, RP_mean*ones(size(ke_T2)), 'r--', 'DisplayName', 'RP HR');
-% %         hold off;
+
+    for ng=1:N_g
+        fprintf("rep = %u/%u, gamma %u/%u \n", nr, N_rep, ng, N_g);
+        gSig = GSigs(ng);
+        [EMD_T2, ke_T2, LB_T, HB_T, Delta_T] =...
+            EMD_ECG_fast(X_A_SST2, W_SST, gSig);
+        [EMD_T1, ke_T1, LB_T, HB_T, Delta_T] =...
+            EMD_ECG_fast(X_A_SST1, W_SST, gSig);
+
+%         EMDsc_Ismall(N_hsz/Fs, 1:size(EMD_T1, 1), EMD_T1);
+%         hold on;
+%         plot(N_hsz/Fs, ke_T1, 'c-', 'DisplayName', 'RP HR');
+%         plot(N_hsz/Fs, mean(ke_T1)*ones(size(ke_T1)), 'c--', 'DisplayName', 'RP HR');
+%         plot(N_hsz/Fs, RP_hr(N_hsz)*60 - 29, 'r-', 'DisplayName', 'RP HR');
+%         plot(N_hsz/Fs, RP_mean*ones(size(ke_T1)), 'r--', 'DisplayName', 'RP HR');
+%         hold off;
 %         
-% %         drawnow
-% %         pause;
-% 
-%         std_vec_SST2(ng) = std_vec_SST2(ng) + std(ke_T2);
-%         mean_vec_SST2(ng) = mean_vec_SST2(ng) + mean(ke_T2);
-%         std_vec_SST1(ng) = std_vec_SST1(ng) + std(ke_T1);
-%         mean_vec_SST1(ng) = mean_vec_SST1(ng) + mean(ke_T1);
-%     end
-% end
-% 
-% 
-% std_vec_SST2 = std_vec_SST2/N_rep;
-% mean_vec_SST2 = mean_vec_SST2/N_rep;
-% std_vec_SST1 = std_vec_SST1/N_rep;
-% mean_vec_SST1 = mean_vec_SST1/N_rep;
+%         EMDsc_Ismall(N_hsz/Fs, 1:size(EMD_T1, 1), EMD_T2);
+%         hold on;
+%         plot(N_hsz/Fs, ke_T2, 'c-', 'DisplayName', 'RP HR');
+%         plot(N_hsz/Fs, mean(ke_T2)*ones(size(ke_T2)), 'c--', 'DisplayName', 'RP HR');
+%         plot(N_hsz/Fs, RP_hr(N_hsz)*60 - 29, 'r-', 'DisplayName', 'RP HR');
+%         plot(N_hsz/Fs, RP_mean*ones(size(ke_T2)), 'r--', 'DisplayName', 'RP HR');
+%         hold off;
+        
+%         drawnow
+%         pause;
+
+        std_vec_SST2(ng) = std_vec_SST2(ng) + std(ke_T2);
+        mean_vec_SST2(ng) = mean_vec_SST2(ng) + mean(ke_T2);
+        std_vec_SST1(ng) = std_vec_SST1(ng) + std(ke_T1);
+        mean_vec_SST1(ng) = mean_vec_SST1(ng) + mean(ke_T1);
+    end
+end
+
+
+std_vec_SST2 = std_vec_SST2/N_rep;
+mean_vec_SST2 = mean_vec_SST2/N_rep;
+std_vec_SST1 = std_vec_SST1/N_rep;
+mean_vec_SST1 = mean_vec_SST1/N_rep;
 % std_vec_RP = std_vec_RP/N_rep;
 % mean_vec_RP = mean_vec_RP/N_rep;
-% 
+
 % save("data_fig_gamma_ecgsyn_N.mat",...
 %     'N_hsz', 'BPM_X', 'Nfft', 'sigma_w',...
 %     'std_vec_SST1', 'mean_vec_SST1', 'std_vec_SST2', 'mean_vec_SST2', 'std_vec_RP', 'mean_vec_RP');
 
-load("data_fig_gamma_ecgsyn_N.mat");
+% load("data_fig_gamma_ecgsyn_N.mat");
 
 % [hr, hrm, rpeaks_y, rpeaks_ind] = hr_from_rr(ecgsig, Fs, T_x);
 % 

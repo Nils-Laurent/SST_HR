@@ -1,5 +1,7 @@
 close all;
 
+addpath('./paper_code/');
+
 %% 70 bpm
 load("data_ecg_syn_init70.mat", 's_syn_init', 'Fs', 'hrmean', 'hrstd');
 

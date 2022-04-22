@@ -19,6 +19,10 @@ Lx = Fs*30;
 
 % hrmean = 60; % Mean heart rate [bpm]
 % [s_syn_init, ipeaks] = ecgsyn(sfecg,N_HBeats,Anoise,hrmean,hrstd,lfhfratio,sfint,ti,ai,bi);
+% save("data_ecg_syn_N.mat", 's_syn_init', 'Fs', 'hrmean', 'hrstd');
+%
+% hrmean = 60; % Mean heart rate [bpm]
+% [s_syn_init, ipeaks] = ecgsyn(sfecg,N_HBeats,Anoise,hrmean,hrstd,lfhfratio,sfint,ti,ai,bi);
 % save("data_ecg_syn_init60.mat", 's_syn_init', 'Fs', 'hrmean', 'hrstd');
 % 
 % hrmean = 70; % Mean heart rate [bpm]

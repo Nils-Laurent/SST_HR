@@ -1,5 +1,7 @@
 close all;
 
+addpath('./paper_code/');
+
 load("data_ecg_syn_init60.mat", 's_syn_init', 'Fs', 'hrmean', 'hrstd');
 
 Lx = min(Fs*30, length(s_syn_init));
