@@ -1,7 +1,7 @@
 function [EMD_all] = EMD_ECG_full(X_A, We)
 
-addpath('./SST_compare-master/comparison');
-addpath('./SST_compare-master/FastEMD');
+addpath('./SST_compare/comparison');
+addpath('./SST_compare/FastEMD');
 
 
 [~, L_hsz] = size(X_A);

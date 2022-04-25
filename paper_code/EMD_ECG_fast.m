@@ -10,8 +10,8 @@ Delta = zeros(1, L_hsz);
 LB = zeros(1, L_hsz);
 HB = zeros(1, L_hsz);
 
-addpath('./SST_compare-master/comparison');
-addpath('./SST_compare-master/FastEMD');
+addpath('./SST_compare/comparison');
+addpath('./SST_compare/FastEMD');
 
 N_hat = 45;
 

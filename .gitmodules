@@ -1,0 +1,3 @@
+[submodule "SST_compare"]
+	path = SST_compare
+	url = git@github.com:HaizhaoYang/SST_compare.git
