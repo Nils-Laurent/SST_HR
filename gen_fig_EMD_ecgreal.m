@@ -1,3 +1,5 @@
+error("real ECG signal is not provided");
+
 close all;
 
 addpath('./paper_code/');
